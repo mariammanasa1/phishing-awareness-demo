@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo Viewer</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #17191d;
+      color: #f4f7fb;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #17191d;
+    }
+    main {
+      width: min(760px, 100%);
+      background: transparent;
+      overflow: hidden;
+    }
+    .panel {
+      padding: 0;
+    }
+    .preview {
+      display: block;
+    }
+    .training {
+      display: none;
+      padding: 32px;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #172033;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+    }
+    .video-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      overflow: hidden;
+      background: #000000;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+    }
+    .video-frame video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      object-fit: cover;
+    }
+    .preview-cover {
+      display: grid;
+      position: absolute;
+      inset: 0;
+      place-items: center;
+      border: 0;
+      background: #000000;
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 0;
+    }
+    .notice {
+      margin: 20px 0;
+      padding: 14px 16px;
+      border-left: 4px solid #2f7d57;
+      background: #eef8f2;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+    p, li {
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    ul {
+      padding-left: 22px;
+    }
+    footer {
+      margin-top: 24px;
+      color: #526071;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="panel preview" id="preview" aria-live="polite">
+      <div class="video-frame" aria-label="Carpark photo preview">
+        <video id="previewVideo" playsinline controls preload="auto">
+          <source src="rick-roll-video-meme-template-video-1da252ec.mp4" type="video/mp4">
+          Your browser cannot play this video preview.
+        </video>
+        <button class="preview-cover" id="previewCover" type="button">
+          <span>Click to preview image</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="panel training" id="training">
+      <h1>This was a phishing-awareness simulation</h1>
+      <p class="notice">No file was downloaded, no code was run, and no personal or device data was collected.</p>
+      <p>
+        The email used curiosity about a car photo to make the click feel harmless. Real attacks often disguise risky links as photos, invoices, delivery notices, or shared documents.
+      </p>
+      <ul>
+        <li>Pause before opening unexpected photo links or attachments.</li>
+        <li>Check whether the sender is a known facilities contact.</li>
+        <li>Look for missing details, such as location, ticket number, vehicle description, or official channel.</li>
+        <li>Report suspicious messages through the approved internal process.</li>
+      </ul>
+      <p>
+        When something feels off, verify it through a trusted channel instead of clicking.
+      </p>
+      <footer>Internal security awareness exercise</footer>
+    </section>
+  </main>
+
+  <script>
+    var preview = document.getElementById("preview");
+    var training = document.getElementById("training");
+    var previewVideo = document.getElementById("previewVideo");
+    var previewCover = document.getElementById("previewCover");
+    var revealTimer = null;
+
+    function revealTraining() {
+      preview.style.display = "none";
+      training.style.display = "block";
+      document.title = "Security Awareness Training";
+    }
+
+    function startPreview() {
+      previewCover.style.display = "none";
+      previewVideo.currentTime = 0;
+      previewVideo.muted = false;
+
+      var playAttempt = previewVideo.play();
+      if (playAttempt && typeof playAttempt.catch === "function") {
+        playAttempt.catch(function () {
+          previewCover.style.display = "grid";
+          previewCover.querySelector("span").textContent = "Click to play preview";
+        });
+      }
+
+      window.clearTimeout(revealTimer);
+      revealTimer = window.setTimeout(revealTraining, 10000);
+    }
+
+    previewVideo.addEventListener("timeupdate", function () {
+      if (previewVideo.currentTime >= 10) {
+        previewVideo.pause();
+        revealTraining();
+      }
+    });
+
+    previewCover.addEventListener("click", startPreview);
+  </script>
+</body>
+</html>
