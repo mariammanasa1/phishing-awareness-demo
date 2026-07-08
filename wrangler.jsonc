@@ -1,13 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "previewportal",
-  "main": "src/worker.js",
+  "name": "phishing-awareness-demo",
   "compatibility_date": "2026-07-08",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "public",
-    "binding": "ASSETS"
-  }
+    "directory": "."
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
 }
